@@ -12,3 +12,5 @@ This application displays a popover on internal wiki links in order to preview l
 * Translations: to be specified
 * Sonar Dashboard: N/A
 * Continuous Integration Status: [![Build Status](http://ci.xwiki.org/job/XWiki%20Contrib/job/application-page-preview/job/master/badge/icon)](http://ci.xwiki.org/job/XWiki%20Contrib/job/application-page-preview/job/master/)
+
+

@@ -28,7 +28,7 @@
     <version>9.11-4</version>
   </parent>
   <artifactId>application-page-preview</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
   <name>Page Preview Application - Parent POM</name>
   <packaging>pom</packaging>
   <description>Displays a page preview popover on internal wiki links.</description>
@@ -52,6 +52,6 @@
     <xwiki.issueManagement.url>https://jira.xwiki.org/projects/PAGEPREV/</xwiki.issueManagement.url>
   </properties>
   <modules>
-    <module>application-page-preview-ui</module>
+    <module>pages</module>
   </modules>
 </project>
