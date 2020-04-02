@@ -1,38 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
- * See the NOTICE file distributed with this work for additional
- * information regarding copyright ownership.
- *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
--->
-
-<xwikidoc version="1.3" reference="XWiki.PagePreviewer" locale="">
+<xwikidoc version="1.4" reference="XWiki.PagePreviewer" locale="">
   <web>XWiki</web>
   <name>PagePreviewer</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1571996017000</creationDate>
+  <creationDate>1577833200000</creationDate>
   <parent>WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1572371714000</date>
-  <contentUpdateDate>1572371695000</contentUpdateDate>
+  <date>1577833200000</date>
+  <contentUpdateDate>1577833200000</contentUpdateDate>
   <version>1.1</version>
   <title>Page Previewer</title>
   <comment/>
@@ -51,12 +31,9 @@ import org.xwiki.model.reference.DocumentReference
 import org.xwiki.resource.ResourceReferenceResolver
 import org.xwiki.resource.ResourceTypeResolver
 import org.xwiki.url.ExtendedURL
-
+  
 // Converts a relative URL path to an EntityReference
 DocumentReference convertPathToDocumentReference(String path) {
-  // The two lines below are useful for cases where some URL rewriting rules are active.
-  // def count = org.apache.commons.lang3.StringUtils.countMatches(path, "/")
-  // if (count &lt; 2) path = "/view/wiki$path"
   def serverUrl = xcontext.URLFactory.getServerURL(xcontext.context)
   def url = serverUrl.toURI().resolve(path).toURL()
   // Code copied from XWiki#initializeResourceFromURL
@@ -82,7 +59,7 @@ String maybeGetImageUrl(Document page) {
 }
 
 def path = request.path
-if (path != null) {
+if ((path != null)&amp;&amp;(path!="")&amp;&amp;(path!="undefined")) {
   response.setContentType('application/json')
   def reference = convertPathToDocumentReference(path)
   def content = ""
@@ -90,7 +67,10 @@ if (path != null) {
   // Don't render this page itself in case there's a link to it because it will loop
   if (reference != doc.documentReference) {
     def page = xwiki.getDocument(reference)
-    content = page.renderedContent
+    def pageContent = page.getValue("definition");
+    if (pageContent==null||pageContent=="")
+     pageContent = page.content
+    content = page.getRenderedContent(pageContent, page.syntaxId)
     imageUrl = maybeGetImageUrl(page)
   } else {
     content = "&lt;p&gt;PagePreviewer is an extension used for displaying page preview popovers on page links.&lt;/p&gt;"
@@ -103,7 +83,7 @@ if (path != null) {
     builder.content.image = imageUrl
   }
   println(builder.toString())
-} else {
+} else if (1==0) {
 
   println "{{info}}"
   println "This page contains a script which returns an HTML preview of a given page. By default, it is called automatically for the ##.wikilink## and ##.wikiinternallink## CSS selectors on all pages of the wiki on which it is installed."
@@ -117,6 +97,8 @@ if (path != null) {
   println "* Output:\n##{\n  \"html\": \"&lt;p&gt;Lorem ipsum dolor sit amor.&lt;/p&gt;\",\n  \"image\": \"/xwiki/wiki/kuava/download/Sandbox/WebHome/XWikiLogo.png?rev=1.1\"\n}##"
   println "{{/info}}"
 
+} else {
+  return ""
 }
 {{/groovy}}
 
@@ -210,6 +192,89 @@ if (path != null) {
     <property>
       <code>
 var XWiki = (function (XWiki) {
+  function strip_tags(input, allowed) {
+//  discuss at: http://phpjs.org/functions/strip_tags/
+// original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+// improved by: Luke Godfrey
+// improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+//    input by: Pul
+//    input by: Alex
+//    input by: Marc Palau
+//    input by: Brett Zamir (http://brett-zamir.me)
+//    input by: Bobby Drake
+//    input by: Evertjan Garretsen
+// bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+// bugfixed by: Onno Marsman
+// bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+// bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+// bugfixed by: Eric Nagel
+// bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+// bugfixed by: Tomasz Wesolowski
+//  revised by: Rafał Kukawski (http://blog.kukawski.pl/)
+//   example 1: strip_tags('&lt;p&gt;Kevin&lt;/p&gt; &lt;br /&gt;&lt;b&gt;van&lt;/b&gt; &lt;i&gt;Zonneveld&lt;/i&gt;', '&lt;i&gt;&lt;b&gt;');
+//   returns 1: 'Kevin &lt;b&gt;van&lt;/b&gt; &lt;i&gt;Zonneveld&lt;/i&gt;'
+//   example 2: strip_tags('&lt;p&gt;Kevin &lt;img src="someimage.png" onmouseover="someFunction()"&gt;van &lt;i&gt;Zonneveld&lt;/i&gt;&lt;/p&gt;', '&lt;p&gt;');
+//   returns 2: '&lt;p&gt;Kevin van Zonneveld&lt;/p&gt;'
+//   example 3: strip_tags("&lt;a href='http://kevin.vanzonneveld.net'&gt;Kevin van Zonneveld&lt;/a&gt;", "&lt;a&gt;");
+//   returns 3: "&lt;a href='http://kevin.vanzonneveld.net'&gt;Kevin van Zonneveld&lt;/a&gt;"
+//   example 4: strip_tags('1 &lt; 5 5 &gt; 1');
+//   returns 4: '1 &lt; 5 5 &gt; 1'
+//   example 5: strip_tags('1 &lt;br/&gt; 1');
+//   returns 5: '1  1'
+//   example 6: strip_tags('1 &lt;br/&gt; 1', '&lt;br&gt;');
+//   returns 6: '1 &lt;br/&gt; 1'
+//   example 7: strip_tags('1 &lt;br/&gt; 1', '&lt;br&gt;&lt;br/&gt;');
+//   returns 7: '1 &lt;br/&gt; 1'
+
+allowed = (((allowed || '') + '')
+.toLowerCase()
+.match(/&lt;[a-z][a-z0-9]*&gt;/g) || [])
+.join(''); // making sure the allowed arg is a string containing only tags in lowercase (&lt;a&gt;&lt;b&gt;&lt;c&gt;)
+var tags = /&lt;\/?([a-z][a-z0-9]*)\b[^&gt;]*&gt;/gi,
+commentsAndPhpTags = /&lt;!--[\s\S]*?--&gt;|&lt;\?(?:php)?[\s\S]*?\?&gt;/gi;
+commentsAndPhpTags2 = /&lt;!\[[\s\S]*?&lt;!\[[\s\S]*?&gt;/gi;
+if (input==null)
+  return "";
+return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
+.replace(tags, function($0, $1) {
+  return allowed.indexOf('&lt;' + $1.toLowerCase() + '&gt;') &gt; -1 ? $0 : '';
+});
+}
+  var inProgress = false;
+  var previewGlossary = false;
+  var previewWikiLinks = false;
+  var previewMenu = false;
+  var previewSearch = false;
+  var thumbnail = false;
+  var maxBlocks = 10;
+  var validTags = 'div,b,i,u,p,ul,ol,li,strong,h1,h2,h3,h4,h5,span,img,table,tbody,thead,td,tr,th';
+  
+#set($itemDoc = $xwiki.getDocument("XWiki.PagePreviewerConfig"))
+#set($ok = $itemDoc.use("XWiki.PagePreviewerConfigClass"))
+#if($itemDoc.getValue("previewglossary"))
+ previewGlossary = true;
+#end
+#if($itemDoc.getValue("previewwikilinks"))
+ previewWikiLinks = true;
+#end
+#if($itemDoc.getValue("previewmenu"))
+ previewMenu = true;
+#end
+#if($itemDoc.getValue("previewsearch"))
+ previewSearch = true;
+#end
+#if($itemDoc.getValue("thumbnail"))
+ thumbnail = true;
+#end
+#if($itemDoc.getValue("maxblocks"))
+ maxBlocks = $itemDoc.getValue("maxblocks");
+#end
+#if($itemDoc.getValue("validtags"))
+ validTags = "$itemDoc.getValue("validtags")";
+#end
+
+  var debug = true;
+
   function init() {
     require(['jquery', 'bootstrap'], function ($, bootstrap) {
       var reference = XWiki.Model.resolve('XWiki.PagePreviewer', XWiki.EntityType.DOCUMENT);
@@ -218,34 +283,78 @@ var XWiki = (function (XWiki) {
         trigger: 'hover',
         placement: 'auto bottom',
         container: 'body',
-        delay: { 'show': 500, 'hide': 100 },
+        delay: { 'show': 500, 'hide': 1000 },
         html: true,
-        selector: '.wikilink, .wikiinternallink',
+        // selector: ''.wikigeneratedlinkcontent'',
+        title: function()
+        {
+          return $(this).text();
+        },
         content: function() {
+          if (inProgress)
+            return "";
+          inProgress = true;
+          if (debug) 
+            console.log("Launching page preview request");
           // Create a random temporary id for the content's parent div
           // with a unique number just in case.
           var contentId = 'content-' + $.now();
           var imageId = 'image-' + $.now();
-          var path = $(this).find('a').attr('href');
+          var path = $(this).attr('href');
+          if (!path || path=="")
+             path = $(this).parent().attr('href');
+          if (debug)
+           console.log("Path: " + path)
+          if (path) {
           $.ajax({
             type: 'GET',
             url: serviceUrl + '?xpage=plain&amp;outputSyntax=plain&amp;path=' + encodeURIComponent(path),
             cache: false,
           }).done( function(data) {
+            if (debug)
+              console.log("Got result from page preview");
             var linkedPageContent = $('&lt;div&gt;' + data.html + '&lt;/div&gt;');
-            var blocks = linkedPageContent.find('p,table,ul,ol,blockquote');
+            if (debug)
+               console.log(data.html);
+            var blocks = linkedPageContent.children(validTags);
             var content = '';
+            if (debug)
+               console.log(blocks)
             if (blocks.size() &gt; 0) {
-              content = blocks[0].outerHTML;
+               for (var i=0;i&lt;blocks.size();i++) {
+                 if (i&gt;=maxBlocks)
+                    break;
+                 content += blocks[i].outerHTML;
+                 if (debug)
+                   console.log("Found " + blocks[i].outerHTML)
+               }
+              if (debug)
+                console.log("Found " + i + " blocks")
             }
+            // stripping tags
+            var allowed = '&lt;' + validTags.replace(/,/g,"&gt;&lt;") + '&gt;'
+            if (thumbnail)
+               allowed = allowed.replace("&lt;img&gt;", "")
+            if (debug)
+               console.log(allowed)
+            content = strip_tags(content, allowed);
+            if (debug)
+               console.log(content)
+
             var imageUrl = data.image;
+            if (debug)
+               console.log(imageUrl)
+            var marginTop = '0';
             if (imageUrl &amp;&amp; imageUrl.length &gt; 0) {
               $('#' + imageId).html('&lt;div class="col-md-12" style="text-align:center"&gt;&lt;img src="' + imageUrl + '" /&gt;&lt;/div&gt;');
-            }
-            var marginTop = '0';
-            if (imageUrl &amp;&amp; imageUrl.length &gt; 0)
               marginTop = '1em';
-              $('#' + contentId).html('&lt;div class="col-md-12" style="margin-top:' + marginTop + '"&gt;' + content + '&lt;/div&gt;');
+            }
+            $('#' + contentId).html('&lt;div class="col-md-12" style="margin-top:' + marginTop + '"&gt;' + content + '&lt;/div&gt;');
+            inProgress = false;
+            if (debug) {
+              console.log("Final Data ready");
+              console.log(content);
+            }
           });
 
           var output = '';
@@ -255,7 +364,11 @@ var XWiki = (function (XWiki) {
           output += '&lt;div class="row" id="' + contentId + '"&gt;';
           output +=   '&lt;div class="col-md-12"&gt;&lt;span class="fa fa-spinner fa-pulse"/&gt;&lt;/div&gt;';
           output += '&lt;/div&gt;';
+          if (debug)
+            console.log("Popup active");
           return output;
+         }
+          return null;
         }
       }
 
@@ -263,17 +376,17 @@ var XWiki = (function (XWiki) {
       var regex = /Android|iPhone|iPad|Opera Mini/i;
       var match = navigator.userAgent.match(regex);
       if (match == null || match.length == 0) {
-        $('body').popover(settings);
 
-        // Disable popovers for internal links
-        $('.wikilink').each(function() {
-          var $this = $(this);
-          var a = $this.find('a');
-          var href = a.attr('href');
-          if (href.indexOf('#') == 0) {
-            $this.popover('disable');
-          }
-        });
+        if (previewWikiLinks)
+         $('#xwikicontent .wikilink a').popover(settings);
+        else if (previewGlossary)
+         $('.wikigeneratedlinkcontent').popover(settings);
+
+        if (previewMenu)
+         $('.menu .wikilink a').popover(settings);
+
+        if (previewSearch)
+        $('.search-result-title a').popover(settings);
       }
     });
   }
@@ -286,7 +399,7 @@ var XWiki = (function (XWiki) {
       <name>JSX</name>
     </property>
     <property>
-      <parse>0</parse>
+      <parse>1</parse>
     </property>
     <property>
       <use>always</use>
@@ -433,12 +546,34 @@ var XWiki = (function (XWiki) {
       </use>
     </class>
     <property>
-      <cache>long</cache>
+      <cache>short</cache>
     </property>
     <property>
       <code>.popover .arrow {
   visibility:hidden
-}</code>
+}
+
+#set($itemDoc = $xwiki.getDocument("XWiki.PagePreviewerConfig"))
+#set($ok = $itemDoc.use("XWiki.PagePreviewerConfigClass"))
+#set($width="500")
+#set($newWidth = $itemDoc.getValue("width"))
+#if($newWidth)
+ #set($width=$newWidth)
+#end
+#set($height="")
+#set($newHeight = $itemDoc.getValue("height"))
+#if($newHeight)
+ #set($height=$newHeight)
+#end
+.popover{
+  min-width: $!{width}px;
+  overflow-x: hidden;
+#if($height!="")
+  max-height: $!{height}px;  
+  overflow-y: hidden;
+#end  
+}
+</code>
     </property>
     <property>
       <contentType>CSS</contentType>
@@ -447,7 +582,7 @@ var XWiki = (function (XWiki) {
       <name>SSX</name>
     </property>
     <property>
-      <parse>0</parse>
+      <parse>1</parse>
     </property>
     <property>
       <use>always</use>
