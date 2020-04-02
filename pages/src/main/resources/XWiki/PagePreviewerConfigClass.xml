@@ -64,7 +64,7 @@
       <name>maxblocks</name>
       <number>6</number>
       <numberType>integer</numberType>
-      <prettyName>Maximim top-level HTML Blocks</prettyName>
+      <prettyName>Maximum top-level HTML Blocks</prettyName>
       <size>3</size>
       <unmodifiable>0</unmodifiable>
       <validationMessage/>

@@ -241,6 +241,7 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
 });
 }
   var inProgress = false;
+  var activate = false;
   var previewGlossary = false;
   var previewWikiLinks = false;
   var previewMenu = false;
@@ -271,6 +272,9 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
 #end
 #if($itemDoc.getValue("validtags"))
  validTags = "$itemDoc.getValue("validtags")";
+#end
+#if($itemDoc.getValue("activate"))
+ activate = true;
 #end
 
   var debug = true;
@@ -376,7 +380,7 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
       var regex = /Android|iPhone|iPad|Opera Mini/i;
       var match = navigator.userAgent.match(regex);
       if (match == null || match.length == 0) {
-
+       if (activate) {
         if (previewWikiLinks)
          $('#xwikicontent .wikilink a').popover(settings);
         else if (previewGlossary)
@@ -387,6 +391,7 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
 
         if (previewSearch)
         $('.search-result-title a').popover(settings);
+       }
       }
     });
   }
