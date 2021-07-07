@@ -271,32 +271,32 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
   
 #set($itemDoc = $xwiki.getDocument("XWiki.PagePreviewerConfig"))
 #set($ok = $itemDoc.use("XWiki.PagePreviewerConfigClass"))
-#if($itemDoc.getValue("previewglossary"))
+#if($itemDoc.getValue("previewglossary") == 1)
  previewGlossary = true;
 #end
-#if($itemDoc.getValue("previewwikilinks"))
+#if($itemDoc.getValue("previewwikilinks") == 1)
  previewWikiLinks = true;
 #end
-#if($itemDoc.getValue("previewmenu"))
+#if($itemDoc.getValue("previewmenu") == 1)
  previewMenu = true;
 #end
-#if($itemDoc.getValue("previewsearch"))
+#if($itemDoc.getValue("previewsearch") == 1)
  previewSearch = true;
 #end
-#if($itemDoc.getValue("thumbnail"))
+#if($itemDoc.getValue("thumbnail") == 1)
  thumbnail = true;
 #end
-#if($itemDoc.getValue("maxblocks"))
+#if($itemDoc.getValue("maxblocks") == 1)
  maxBlocks = $itemDoc.getValue("maxblocks");
 #end
-#if($itemDoc.getValue("validtags"))
+#if($itemDoc.getValue("validtags") == 1)
  validTags = "$itemDoc.getValue("validtags")";
 #end
-#if($itemDoc.getValue("activate"))
+#if($itemDoc.getValue("activate") == 1)
  activate = true;
 #end
 
-  var debug = true;
+  var debug = false;
 
   function init() {
     require(['jquery', 'bootstrap'], function ($, bootstrap) {
