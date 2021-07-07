@@ -34,6 +34,10 @@
     <properties>
         <xwiki.extension.name>Page Preview Application</xwiki.extension.name>
         <xwiki.extension.category>application</xwiki.extension.category>
+        <xwiki.release.jira.skip>true</xwiki.release.jira.skip>
+        <xwiki.issueManagement.system>jira</xwiki.issueManagement.system>
+        <xwiki.issueManagement.url>https://jira.xwiki.org/projects/PAGEPREV/</xwiki.issueManagement.url>
+        <xwiki.extension.features>org.xwiki.contrib:xwiki-page-preview-pages</xwiki.extension.features>
     </properties>
     <build>
     <!-- Needed to add support for the XAR packaging -->
