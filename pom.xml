@@ -23,9 +23,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.xwiki.commons</groupId>
-    <artifactId>xwiki-commons-pom</artifactId>
-    <version>8.4</version>
+    <groupId>org.xwiki.contrib</groupId>
+    <artifactId>parent-platform</artifactId>
+    <version>8.4-11</version>
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>application-page-preview</artifactId>
@@ -52,9 +52,7 @@
   <properties>
     <xwiki.extension.name>Page Preview Application</xwiki.extension.name>
     <xwiki.extension.category>application</xwiki.extension.category>
-    <xwiki.release.jira.skip>true</xwiki.release.jira.skip>
-    <xwiki.issueManagement.system>jira</xwiki.issueManagement.system>
-    <xwiki.issueManagement.url>https://jira.xwiki.org/projects/PAGEPREV/</xwiki.issueManagement.url>
+    <xwiki.issueManagement.jira.id>PAGEPREV</xwiki.issueManagement.jira.id>
   </properties>
   <modules>
     <module>pages</module>
