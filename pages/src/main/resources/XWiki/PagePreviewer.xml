@@ -404,7 +404,7 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
         if (previewWikiLinks)
          $('#xwikicontent .wikilink a').popover(settings);
         else if (previewGlossary)
-         $('#xwikicontent .wikigeneratedlinkcontent').popover(settings);
+         $('#xwikicontent .glossary-entry').popover(settings);
 
         if (previewMenu)
          $('.menu .wikilink a').popover(settings);
