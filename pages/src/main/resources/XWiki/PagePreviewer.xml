@@ -316,7 +316,7 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
         },
         content: function() {
           // Add a class to the displayed popover.
-          $(this).data()['bs.popover'].tip().addClass('pagePreviewPopover');
+          $(this).data('bs.popover').tip().addClass('page-preview-popover');
           if (inProgress)
             return "";
           inProgress = true;
@@ -576,7 +576,7 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
       <cache>short</cache>
     </property>
     <property>
-      <code>.pagePreviewPopover .arrow {
+      <code>.page-preview-popover .arrow {
   visibility:hidden;
 }
 
@@ -592,7 +592,7 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
 #if($newHeight)
  #set($height=$newHeight)
 #end
-.pagePreviewPopover {
+.page-preview-popover {
   min-width: $!{width}px;
   overflow-x: hidden;
 #if($height!="")
