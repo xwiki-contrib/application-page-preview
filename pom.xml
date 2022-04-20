@@ -29,7 +29,7 @@
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>application-page-preview</artifactId>
-  <version>1.2.4-SNAPSHOT</version>
+  <version>1.2.4</version>
   <name>Page Preview Application - Parent POM</name>
   <packaging>pom</packaging>
   <description>Displays a page preview popover on internal wiki links.</description>
@@ -37,7 +37,7 @@
     <connection>scm:git:git://github.com/xwiki-contrib/application-page-preview.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki-contrib/application-page-preview.git</developerConnection>
     <url>https://github.com/xwiki-contrib/application-page-preview/tree/master</url>
-    <tag>HEAD</tag>
+    <tag>application-page-preview-1.2.4</tag>
   </scm>
   <developers>
     <developer>
