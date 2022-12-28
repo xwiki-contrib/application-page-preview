@@ -49,7 +49,6 @@
     </developer>
   </developers>
   <properties>
-    <xwiki.extension.name>Page Preview Application</xwiki.extension.name>
     <xwiki.extension.category>application</xwiki.extension.category>
     <xwiki.issueManagement.jira.id>PAGEPREV</xwiki.issueManagement.jira.id>
   </properties>

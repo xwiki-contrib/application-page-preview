@@ -34,27 +34,8 @@
     <properties>
         <xwiki.extension.name>Page Preview Application</xwiki.extension.name>
         <xwiki.extension.category>application</xwiki.extension.category>
-        <xwiki.release.jira.skip>true</xwiki.release.jira.skip>
-        <xwiki.issueManagement.system>jira</xwiki.issueManagement.system>
-        <xwiki.issueManagement.url>https://jira.xwiki.org/projects/PAGEPREV/</xwiki.issueManagement.url>
         <xwiki.extension.features>org.xwiki.contrib:xwiki-page-preview-pages</xwiki.extension.features>
-    </properties>
+      </properties>
     <build>
-    <!-- Needed to add support for the XAR packaging -->
-    <extensions>
-      <extension>
-        <groupId>org.xwiki.commons</groupId>
-        <artifactId>xwiki-commons-tool-xar-handlers</artifactId>
-        <version>${commons.version}</version>
-      </extension>
-    </extensions>
-    <plugins>
-      <!-- The XAR packaging uses the XAR plugin and thus we need to define what version to use -->
-      <plugin>
-        <groupId>org.xwiki.commons</groupId>
-        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
-        <version>${commons.version}</version>
-      </plugin>
-    </plugins>
   </build>
 </project>
