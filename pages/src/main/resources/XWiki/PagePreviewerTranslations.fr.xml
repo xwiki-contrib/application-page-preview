@@ -45,6 +45,7 @@ XWiki.PagePreviewerConfigClass_previewwikilinks=Prévisualiser les liens wikis
 XWiki.PagePreviewerConfigClass_previewglossary=Prévisualiser les liens du Glossaire
 XWiki.PagePreviewerConfigClass_previewmenu=Prévisualiser les liens du Menu
 XWiki.PagePreviewerConfigClass_previewsearch=Prévisualiser les liens de la Recherche
+XWiki.PagePreviewerConfigClass_previewselector=Sélecteur CSS d'éléments à prévisualiser
 XWiki.PagePreviewerConfigClass_maxblocks=Nombre maximal d'élements HTML à afficher
 XWiki.PagePreviewerConfigClass_validtags=Balises HTML prises en compte
 XWiki.PagePreviewerConfigClass_thumbnails=Afficher la première image comme vignette

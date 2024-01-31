@@ -45,6 +45,7 @@ XWiki.PagePreviewerConfigClass_previewwikilinks=Preview wiki links
 XWiki.PagePreviewerConfigClass_previewglossary=Preview glossary entries
 XWiki.PagePreviewerConfigClass_previewmenu=Preview menu items
 XWiki.PagePreviewerConfigClass_previewsearch=Preview search results
+XWiki.PagePreviewerConfigClass_previewselector=Preview items matching selector
 XWiki.PagePreviewerConfigClass_maxblocks=Maximum top-level HTML blocks
 XWiki.PagePreviewerConfigClass_validtags=Valid HTML tags
 XWiki.PagePreviewerConfigClass_thumbnails=Show first image as thumbnail

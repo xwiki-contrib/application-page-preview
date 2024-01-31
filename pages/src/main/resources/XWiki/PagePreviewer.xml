@@ -269,6 +269,7 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
   var thumbnail = false;
   var maxBlocks = 10;
   var validTags = 'div,b,i,u,p,ul,ol,li,strong,h1,h2,h3,h4,h5,span,img,table,tbody,thead,td,tr,th';
+  var previewSelector = undefined;
   
 #set($itemDoc = $xwiki.getDocument("XWiki.PagePreviewerConfig"))
 #set($ok = $itemDoc.use("XWiki.PagePreviewerConfigClass"))
@@ -295,6 +296,9 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
 #end
 #if($itemDoc.getValue("activate") == 1)
  activate = true;
+#end
+#if("$!itemDoc.getValue('previewselector')" != '')
+  previewSelector = "$itemDoc.getValue('previewselector')"
 #end
 
   var debug = false;
@@ -413,6 +417,9 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
 
         if (previewSearch)
         $('.search-result-title a').popover(settings);
+         if (previewSelector) {
+           $(previewSelector).popover(settings);
+         }
        }
       }
     });
