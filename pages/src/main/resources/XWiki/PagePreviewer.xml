@@ -375,7 +375,7 @@ return input.replace(commentsAndPhpTags, '').replace(commentsAndPhpTags2, '')
             if (debug)
                console.log(imageUrl)
             var marginTop = '0';
-            if (imageUrl &amp;&amp; imageUrl.length &gt; 0) {
+            if (imageUrl &amp;&amp; imageUrl.length &gt; 0 &amp;&amp; thumbnail) {
               $('#' + imageId).html('&lt;div class="col-md-12" style="text-align:center"&gt;&lt;img src="' + imageUrl + '" /&gt;&lt;/div&gt;');
               marginTop = '1em';
             }
