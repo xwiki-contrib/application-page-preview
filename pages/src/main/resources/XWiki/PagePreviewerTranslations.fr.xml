@@ -38,7 +38,7 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>admin.pagepreview=Prévisualisation de pages
 XWiki.PagePreviewerConfigClass_activate=Activer
 XWiki.PagePreviewerConfigClass_previewwikilinks=Prévisualiser les liens wikis
