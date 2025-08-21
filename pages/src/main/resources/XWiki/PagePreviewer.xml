@@ -90,7 +90,7 @@ if ((path != null)&amp;&amp;(path!="")&amp;&amp;(path!="undefined")) {
     def pageContent = page.getValue("definition");
     if (pageContent==null||pageContent=="")
      pageContent = page.content
-    content = page.getRenderedContent(pageContent, page.syntaxId)
+    content = page.getRenderedContent(pageContent, page.syntaxId, "html/5.0")
     imageUrl = maybeGetImageUrl(page)
   } else {
     content = "&lt;p&gt;PagePreviewer is an extension used for displaying page preview popovers on page links.&lt;/p&gt;"
